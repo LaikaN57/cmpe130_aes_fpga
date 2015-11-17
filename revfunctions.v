@@ -82,7 +82,7 @@ module RevSBox(
 		input wire [7:0] in,
 		output reg [7:0] out);
 
-	always begin
+	always @(in) begin
 		case(in)
 			8'h00: out = 8'h52;
 			8'h01: out = 8'h09;
