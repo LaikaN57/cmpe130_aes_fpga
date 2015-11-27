@@ -25,7 +25,7 @@ module SubBytes(
 	// b    = S(a   )
 	//  i,j      i,j
 	genvar i;
-	generate
+	generate // this function is not affected by the matix ordering
 		for(i = 0; i < 128; i = i + 8) begin : USBox
 				SBox U(in[i+7:i], out[i+7:i]);
 			end
@@ -40,28 +40,28 @@ module ShiftRows(
 	//  i,j    i,j+i
 	
 	// top row shift left 0 bytes
-	assign out[127:120] = in[127:120];
-	assign out[95:88] = in[95:88];
-	assign out[63:56] = in[63:56];
-	assign out[31:24] = in[31:24];
+	assign out[7:0] = in[7:0];
+	assign out[39:32] = in[39:32];
+	assign out[71:64] = in[71:64];
+	assign out[103:96] = in[103:96];
 	
 	// shift left 1 byte
-	assign out[119:112] = in[87:80];
-	assign out[87:80] = in[55:48];
-	assign out[55:48] = in[23:16];
-	assign out[23:16] = in[119:112];
+	assign out[15:8] = in[111:104];
+	assign out[47:40] = in[15:8];
+	assign out[79:72] = in[47:40];
+	assign out[111:104] = in[79:72];
 	
 	// shift left 2 bytes
-	assign out[111:104] = in[47:40];
-	assign out[79:72] = in[15:8];
-	assign out[47:40] = in[111:104];
-	assign out[15:8] = in[79:72];
+	assign out[23:16] = in[87:80];
+	assign out[55:48] = in[119:112];
+	assign out[87:80] = in[23:16];
+	assign out[119:112] = in[55:48];
 	
 	// bottom row shift left 3 bytes
-	assign out[103:96] = in[7:0];
-	assign out[71:64] = in[103:96];
-	assign out[39:32] = in[71:64];
-	assign out[7:0] = in[39:32];
+	assign out[31:24] = in[63:56];
+	assign out[63:56] = in[95:88];
+	assign out[95:88] = in[127:120];
+	assign out[127:120] = in[31:24];
 
 endmodule
 
@@ -91,7 +91,7 @@ module AddRoundKey(
 		output wire [127:0] out);
 	
 	// b = a^k
-	assign out = in ^ key;
+	assign out = in ^ key; // this function is not affected by the matix ordering
 endmodule
 
 
