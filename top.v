@@ -23,12 +23,22 @@
 
 IMPORTANT
 
-all matricies are in the following order
-[ 127:120 95:88 63:56 31:24 ]
-[ 119:112 87:80 55:48 23:16 ]
-[ 111:104 79:72 47:40 15:8  ]
-[ 103:96  71:64 39:32  7:0  ]
+All matricies are in the following order:
 
+bytes
+[  0  4  8 12 ]
+[  1  5  9 13 ]
+[  2  6 10 14 ]
+[  3  7 11 15 ]
+
+bits
+[   7:0    39:32   71:64  103:96  ]
+[  15:8    47:40   79:72  111:104 ]
+[  23:16   55:48   87:80  119:112 ]
+[  31:24   63:56   95:88  127:120 ]
+
+Therefore row 0 is made up of bytes 0, 4, 8, and 12.
+This coorosponds to bits 7:0, 39:32, 71:64, and 103:96.
 
 */
 module top(
