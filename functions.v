@@ -77,10 +77,10 @@ module MixColumns(
 	genvar i;
 	generate
 		for(i = 0; i < 128; i = i + 32) begin : MC
-				assign out[i+31:i+24] = (in[i+31:i+24]*8'h2) + (in[i+23:i+16]*8'h3) + (in[i+15:i+8])      + (in[i+7:i]);
-				assign out[i+23:i+16] = (in[i+31:i+24])      + (in[i+23:i+16]*8'h2) + (in[i+15:i+8]*8'h3) + (in[i+7:i]);
-				assign out[i+15:i+8]  = (in[i+31:i+24])      + (in[i+23:i+16])      + (in[i+15:i+8]*8'h2) + (in[i+7:i]*8'h3);
-				assign out[i+7:i]     = (in[i+31:i+24]*8'h3) + (in[i+23:i+16])      + (in[i+15:i+8])      + (in[i+7:i]*8'h2);
+				assign out[i+7:i]     = (in[i+7:i]*8'h2) ^ (in[i+15:i+8]*8'h3) ^ (in[i+23:i+16])      ^ (in[i+31:i+24]);
+				assign out[i+15:i+8]  = (in[i+7:i])      ^ (in[i+15:i+8]*8'h2) ^ (in[i+23:i+16]*8'h3) ^ (in[i+31:i+24]);
+				assign out[i+23:i+16] = (in[i+7:i])      ^ (in[i+15:i+8])      ^ (in[i+23:i+16]*8'h2) ^ (in[i+31:i+24]*8'h3);
+				assign out[i+31:i+24] = (in[i+7:i]*8'h3) ^ (in[i+15:i+8])      ^ (in[i+23:i+16])      ^ (in[i+31:i+24]*8'h2);
 			end
 	endgenerate
 endmodule
