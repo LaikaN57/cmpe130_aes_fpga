@@ -42,14 +42,22 @@ This coorosponds to bits 7:0, 39:32, 71:64, and 103:96.
 
 */
 module top(
-		input  wire     mode);
+		input  wire mode,
+		input  wire in_bit,
+		output wire out_bit);
 
-		supply0 [127:0] in;
-		supply0 [127:0] key;
-		reg  [127:0] out;
-	 
+	supply0 [126:0] in_supply;
+	supply0 [127:0] key;
+	
+	wire [127:0] in;
+	reg  [127:0] out;
+
 	wire [127:0] ciphertext;
 	wire [127:0] plaintext;
+	
+	//===========================================
+
+	assign in = {in_supply[126:0], in_bit};
 
 	aes_encrypt U1(in, key, ciphertext);
 	aes_decrypt U2(in, key, plaintext);
@@ -57,4 +65,6 @@ module top(
 	always begin
 		out = mode ? ciphertext : plaintext;
 	end
+
+	assign out_bit = out[0];
 endmodule

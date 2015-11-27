@@ -64,10 +64,10 @@ endmodule
 module SubWord(
 		input  wire [31:0] in,
 		output wire [31:0] out);
-	SubBytes U1(in[31:24], out[31:24]);
-	SubBytes U2(in[23:16], out[23:16]);
-	SubBytes U3(in[15:8],  out[15:8]);
-	SubBytes U4(in[7:0],   out[7:0]);
+	SBox U1(in[31:24], out[31:24]);
+	SBox U2(in[23:16], out[23:16]);
+	SBox U3(in[15:8],  out[15:8]);
+	SBox U4(in[7:0],   out[7:0]);
 endmodule
 
 module RotWord(
