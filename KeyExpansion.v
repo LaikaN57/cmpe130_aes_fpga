@@ -27,9 +27,10 @@ module KeyExpansion(
 	wire [1407:0] aftersubword;
 	//wire [1407:0] roundconsts;
 	wire [1407:0] afterxorwithroundconst;
+	wire [1407:0] subkeys_internal;
 		 
 	// make some key babys
-	assign subkeys[127:0] = key;
+	assign subkeys_internal[127:0] = key;
 	
 	// only on mod 4 words
 	assign afterxorwithroundconst = aftersubword ^ { // roundconsts
@@ -49,15 +50,17 @@ module KeyExpansion(
 	generate
 		for(i = 4; i < 44; i = i + 1) begin : KE
 			if(i % 4 == 0) begin
-				RotWord RU(subkeys[(i-1)*32+31:(i-1)*32], afterrotword[i*32+31:i*32]);
+				RotWord RU(subkeys_internal[(i-1)*32+31:(i-1)*32], afterrotword[i*32+31:i*32]);
 				SubWord SU(afterrotword[i*32+31:i*32], aftersubword[i*32+31:i*32]);
-				assign subkeys[i*32+31:i*32] = afterxorwithroundconst[i*32+31:i*32] ^ subkeys[(i-4)*32+31:(i-4)*32];
+				assign subkeys_internal[i*32+31:i*32] = afterxorwithroundconst[i*32+31:i*32] ^ subkeys_internal[(i-4)*32+31:(i-4)*32];
 			end else begin
 				// this byte = last byte ^ 4 bytes ago
-				assign subkeys[i*32+31:i*32] = subkeys[(i-1)*32+31:(i-1)*32] ^ subkeys[(i-4)*32+31:(i-4)*32];
+				assign subkeys_internal[i*32+31:i*32] = subkeys_internal[(i-1)*32+31:(i-1)*32] ^ subkeys_internal[(i-4)*32+31:(i-4)*32];
 			end
 		end
 	endgenerate
+	
+	assign subkeys = subkeys_internal;
 
 endmodule
 

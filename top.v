@@ -53,14 +53,14 @@ module top(
 	reg  [127:0] out;
 
 	wire [127:0] ciphertext;
-	wire [127:0] plaintext;
+	supply0 [127:0] plaintext; // was wire
 	
 	//===========================================
 
 	assign in = {in_supply[126:0], in_bit};
 
 	aes_encrypt U1(in, key, ciphertext);
-	aes_decrypt U2(in, key, plaintext);
+	//aes_decrypt U2(in, key, plaintext);
 
 	always begin
 		out = mode ? ciphertext : plaintext;
