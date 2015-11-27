@@ -65,6 +65,8 @@ module ShiftRows(
 
 endmodule
 
+// FIXME: re-implement as a set of look up tables:
+// https://en.wikipedia.org/wiki/Rijndael_mix_columns#Galois_Multiplication_lookup_tables
 module MixColumns(
 		input  wire [127:0] in,
 		output wire [127:0] out);
